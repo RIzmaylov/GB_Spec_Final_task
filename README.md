@@ -209,5 +209,358 @@ LEFT JOIN camels ON pack_animals.id = camels.id
 LEFT JOIN donkeys ON pack_animals.id = donkeys.id;
 ~~~
 
+13.Создать класс с Инкапсуляцией методов и наследованием по диаграмме.
+
+~~~
+package Animals;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Animal {
+    protected String name;
+    protected ArrayList<String> commands;
+
+    public Animal(String name, ArrayList<String> commands) {
+        this.name = name;
+        this.commands = commands;
+    }
+
+    public List<String> getCommands() {
+        return new ArrayList<>(commands);
+    }
+
+    public void addCommand(String command) {
+        commands.add(command);
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+~~~
+~~~
+package Animals;
+
+import java.util.ArrayList;
+
+public abstract class Pet extends Animal {
+    public Pet(String name, ArrayList<String> commands) {
+        super(name, commands);
+    }
+}
+~~~
+~~~
+package Animals;
+
+import java.util.ArrayList;
+
+public abstract class PackAnimal extends Animal {
+    public PackAnimal(String name, ArrayList<String> commands) {
+        super(name, commands);
+    }
+}
+~~~
+~~~
+package Animals;
+
+import java.util.ArrayList;
+
+public class Dog extends Pet {
+    public Dog(String name, ArrayList<String> command) {
+        super(name, command);
+    }
+
+    @Override
+    public String toString() {
+        return "Dog";
+    }
+}
+
+~~~
+~~~
+
+package Animals;
+
+import java.util.ArrayList;
+
+public class Cat extends Pet {
+    public Cat(String name, ArrayList<String> command) {
+        super(name, command);
+    }
+
+    @Override
+    public String toString() {
+        return "Cat";
+    }
+}
+
+~~~
+~~~
+
+package Animals;
+
+import java.util.ArrayList;
+
+public class Hamster extends Pet {
+    public Hamster(String name, ArrayList<String> command) {
+        super(name, command);
+    }
+
+    @Override
+    public String toString() {
+        return "Hamster";
+    }
+}
+
+~~~
+~~~
+
+package Animals;
+
+import java.util.ArrayList;
+
+public class Horse extends PackAnimal {
+    public Horse(String name, ArrayList<String> command) {
+        super(name, command);
+    }
+
+    @Override
+    public String toString() {
+        return "Horse";
+    }
+}
+
+~~~
+~~~
+
+package Animals;
+
+import java.util.ArrayList;
+
+public class Camel extends PackAnimal {
+    public Camel(String name, ArrayList<String> command) {
+        super(name, command);
+    }
+
+    @Override
+    public String toString() {
+        return "Camel";
+    }
+}
+
+~~~
+~~~
+
+package Animals;
+
+import java.util.ArrayList;
+
+public class Donkey extends PackAnimal {
+    public Donkey(String name, ArrayList<String> command) {
+        super(name, command);
+    }
+
+    @Override
+    public String toString() {
+        return "Donkey";
+    }
+}
+
+~~~
+
+14. Написать программу, имитирующую работу реестра домашних животных.
+В программе должен быть реализован следующий функционал:
+
+
+14.1 Завести новое животное
+
+14.2 определять животное в правильный класс
+
+14.3 увидеть список команд, которое выполняет животное
+
+14.4 обучить животное новым командам
+
+14.5 Реализовать навигацию по меню
+
+~~~
+import Animals.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Creator {
+    private static ArrayList<String> allAnimals = new ArrayList<>(Arrays.asList("Dog", "Cat", "Hamster", "Horse", "Camel", "Donkey"));
+
+    public static Animal createAnimal(int animalType, String name, ArrayList<String> commands) {
+        Animal animal = new Dog(name, commands);
+
+        switch (allAnimals.get(animalType)) {
+            case "Dog":
+                animal = new Dog(name, commands);
+                break;
+            case "Cat":
+                animal = new Cat(name, commands);
+                break;
+            case "Hamster":
+                animal = new Hamster(name, commands);
+                break;
+            case "Horse":
+                animal = new Horse(name, commands);
+                break;
+            case "Camel":
+                animal = new Camel(name, commands);
+                break;
+            case "Donkey":
+                animal = new Donkey(name, commands);
+                break;
+        }
+
+        return animal;
+    }
+
+
+    public static ArrayList<String> getAllAnimalsToCreate() {
+        return new ArrayList<>(allAnimals);
+    }
+}
+~~~
+~~~
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+import Animals.Animal;
+
+public class Menu {
+    private ArrayList<Animal> animals = new ArrayList<>();
+
+    public void start() {
+        Scanner scanner = new Scanner(System.in);
+
+        boolean isWorking = true;
+
+        while (isWorking) {
+            System.out.println("""
+                    Выведите команду:
+                    1. Завести новое животное
+                    2. Показать список комманд животного
+                    3. Обучить команде
+                    4. Выход""");
+
+            int userCommand = scanner.nextInt();
+
+            switch (userCommand) {
+                case (1):
+                    createAnimal();
+                    break;
+                case (2):
+                    showCommands();
+                    break;
+                case (3):
+                    addCommand();
+                    break;
+                case (4):
+                    isWorking = false;
+                    break;
+            }
+
+        }
+    }
+
+    private void createAnimal() {
+        Scanner scanner = new Scanner(System.in);
+        
+        try (Counter counter = new Counter()) {
+            System.out.println("Введите номер животного из списка, которого хотели бы завести");
+
+            ArrayList<String> allAnimalsToCreate = Creator.getAllAnimalsToCreate();
+
+            for (int i = 0; i < allAnimalsToCreate.size(); i++) {
+                System.out.println(i + " " + allAnimalsToCreate.get(i));
+            }
+
+            int animalType = scanner.nextInt();
+
+            if (animalType < 0 || animalType >= allAnimalsToCreate.size()) {
+                System.out.println("Выбирете корректный номер из списка");
+                return;
+            }
+
+            System.out.println("Введите кличку животного");
+            String animalName = scanner.next();
+
+            System.out.println("Введите, через запятую, команды, которые знает животное");
+            List<String> temp = Arrays.stream(scanner.next().split(",")).toList();
+            ArrayList<String> animalCommands = new ArrayList<> (temp);
+
+            animals.add(Creator.createAnimal(animalType, animalName, animalCommands));
+
+            counter.increment();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    
+    private void showCommands() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Выберите животное из списка");
+
+        for (int i = 0; i < animals.size(); i++) {
+            System.out.println(i + ". " + animals.get(i) + " " + animals.get(i).getName());
+        }
+
+        int userChoice = scanner.nextInt();
+
+        for (String command: animals.get(userChoice).getCommands()) {
+            System.out.println(command);
+        }
+    }
+    private void addCommand() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Выберите животное из списка");
+
+        for (int i = 0; i < animals.size(); i++) {
+            System.out.println(i + ". " + animals.get(i) + " " + animals.get(i).getName());
+        }
+
+        int userChoice = scanner.nextInt();
+
+        System.out.println("Введите новую команду");
+
+        String newCommand = scanner.next();
+
+        animals.get(userChoice).addCommand(newCommand);
+    }
+}
+~~~
+
+15.Создайте класс Счетчик, у которого есть метод add(), увеличивающий̆
+значение внутренней̆int переменной̆на 1 при нажатие “Завести новое
+животное” Сделайте так, чтобы с объектом такого типа можно было работать в
+блоке try-with-resources. Нужно бросить исключение, если работа с объектом
+типа счетчик была не в ресурсном try и/или ресурс остался открыт. Значение
+считать в ресурсе try, если при заведения животного заполнены все поля.
+
+~~~
+public class Counter implements AutoCloseable {
+    private static int count;
+
+    public void increment() {
+        count++;
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (count < 0) {
+            throw new Exception();
+        }
+    }
+}
+~~~
 
 
