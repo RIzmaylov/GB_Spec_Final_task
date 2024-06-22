@@ -1,7 +1,6 @@
 package Animals;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Hamster extends Pet {
     public Hamster(String name, ArrayList<String> command) {

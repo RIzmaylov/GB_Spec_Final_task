@@ -2,7 +2,6 @@ import Animals.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Creator {
     private static ArrayList<String> allAnimals = new ArrayList<>(Arrays.asList("Dog", "Cat", "Hamster", "Horse", "Camel", "Donkey"));
