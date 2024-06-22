@@ -17,7 +17,7 @@ public class Menu {
             System.out.println("""
                     Выведите команду:
                     1. Завести новое животное
-                    2. Показать список комманд
+                    2. Показать список комманд животного
                     3. Обучить команде
                     4. Выход""");
 
@@ -69,6 +69,36 @@ public class Menu {
 
     }
     
-    private void showCommands() {}
-    private void addCommand() {}
+    private void showCommands() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Выберите животное из списка");
+
+        for (int i = 0; i < animals.size(); i++) {
+            System.out.println(i + ". " + animals.get(i) + " " + animals.get(i).getName());
+        }
+
+        int userChoice = scanner.nextInt();
+
+        for (String command: animals.get(userChoice).getCommands()) {
+            System.out.println(command);
+        }
+    }
+    private void addCommand() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Выберите животное из списка");
+
+        for (int i = 0; i < animals.size(); i++) {
+            System.out.println(i + ". " + animals.get(i) + " " + animals.get(i).getName());
+        }
+
+        int userChoice = scanner.nextInt();
+
+        System.out.println("Введите новую команду");
+
+        String newCommand = scanner.nextLine();
+
+        animals.get(userChoice).addCommand(newCommand);
+    }
 }
