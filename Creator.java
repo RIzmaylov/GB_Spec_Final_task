@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Creator {
-    private static List<String> allAnimals = new ArrayList<>(Arrays.asList("Dog", "Cat", "Hamster", "Horse", "Camel", "Donkey"));
+    private static ArrayList<String> allAnimals = new ArrayList<>(Arrays.asList("Dog", "Cat", "Hamster", "Horse", "Camel", "Donkey"));
 
-    public static Animal createAnimal(int animalType, String name, List<String> commands) {
+    public static Animal createAnimal(int animalType, String name, ArrayList<String> commands) {
         Animal animal = new Dog(name, commands);
 
         switch (allAnimals.get(animalType)) {
@@ -35,7 +35,7 @@ public class Creator {
     }
 
 
-    public static List<String> getAllAnimalsToCreate() {
+    public static ArrayList<String> getAllAnimalsToCreate() {
         return new ArrayList<>(allAnimals);
     }
 }

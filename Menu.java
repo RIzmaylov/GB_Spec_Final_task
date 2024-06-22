@@ -6,7 +6,7 @@ import java.util.Scanner;
 import Animals.Animal;
 
 public class Menu {
-    private List<Animal> animals = new ArrayList<>();
+    private ArrayList<Animal> animals = new ArrayList<>();
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -43,10 +43,11 @@ public class Menu {
 
     private void createAnimal() {
         Scanner scanner = new Scanner(System.in);
-
+        
+        try (Counter counter = new Counter()) {
             System.out.println("Введите номер животного из списка, которого хотели бы завести");
 
-            List<String> allAnimalsToCreate = Creator.getAllAnimalsToCreate();
+            ArrayList<String> allAnimalsToCreate = Creator.getAllAnimalsToCreate();
 
             for (int i = 0; i < allAnimalsToCreate.size(); i++) {
                 System.out.println(i + " " + allAnimalsToCreate.get(i));
@@ -63,9 +64,15 @@ public class Menu {
             String animalName = scanner.next();
 
             System.out.println("Введите, через запятую, команды, которые знает животное");
-            List<String> animalCommands = Arrays.stream(scanner.next().split(",")).toList();
+            List<String> temp = Arrays.stream(scanner.next().split(",")).toList();
+            ArrayList<String> animalCommands = new ArrayList<> (temp);
 
             animals.add(Creator.createAnimal(animalType, animalName, animalCommands));
+
+            counter.increment();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
     
@@ -97,7 +104,7 @@ public class Menu {
 
         System.out.println("Введите новую команду");
 
-        String newCommand = scanner.nextLine();
+        String newCommand = scanner.next();
 
         animals.get(userChoice).addCommand(newCommand);
     }

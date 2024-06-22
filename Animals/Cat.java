@@ -1,9 +1,10 @@
 package Animals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cat extends Pet {
-    public Cat(String name, List<String> command) {
+    public Cat(String name, ArrayList<String> command) {
         super(name, command);
     }
 
