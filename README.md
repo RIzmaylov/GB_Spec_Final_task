@@ -21,3 +21,6 @@
 
 ![Model](https://github.com/RIzmaylov/GB_Spec_Final_task/blob/main/Files/Animal_Diagramm.png)
 
+7. В подключенном MySQL репозитории создать базу данных “Друзья человека”
+8. Создать таблицы с иерархией из диаграммы в БД
+
